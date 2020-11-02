@@ -24,6 +24,22 @@ Get your daily dose of NEWS here!
 <hr>
 <br>
 
+
+</div>
+<div align="center">
+
+## Download apk
+<br>
+
+[Click here](https://github.com/shashi-kant10/newsdozz/raw/master/apk/NewsDozz.apk)
+
+<br>
+<hr>
+<br>
+
+</div>
+<div align="left">
+
 ## Screenshots
 <br>
 
