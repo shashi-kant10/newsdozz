@@ -1,16 +1,23 @@
 package com.shashi.dailyshot
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.shashi.dailyshot.data.NewsDataModel
 import com.shashi.dailyshot.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), NewsItemClicked {
 
-    lateinit var binding: ActivityMainBinding
-    lateinit var newsAdapter: NewsAdapter
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var newsAdapter: NewsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,26 +33,61 @@ class MainActivity : AppCompatActivity(), NewsItemClicked {
 
     private fun initViews() {
 
+        binding.progressBarRecyclerView.visibility = View.VISIBLE
         binding.recyclerViewMainActivity.layoutManager = LinearLayoutManager(this)
-
-        val data = initData()
-        newsAdapter = NewsAdapter(data, this)
+        fetchData()
+        newsAdapter = NewsAdapter(this)
 
         binding.recyclerViewMainActivity.adapter = newsAdapter
     }
 
-    private fun initData(): ArrayList<String> {
+    private fun fetchData() {
 
-        val list = ArrayList<String>()
-        for (i in 1..100) {
-            list.add("Item $i")
-        }
+        val url =
+            "https://gnews.io/api/v4/top-headlines?lang=en&country=in&topic=breaking-news&token=ef098601144aaa99d14f8cd6d85eb7d8"
 
-        return list
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET,
+            url,
+            null,
+            {
+                val newsJsonArray = it.getJSONArray("articles")
+                val newsArray = ArrayList<NewsDataModel>()
+
+                for (i in 0 until newsJsonArray.length()) {
+                    val newsJsonObject = newsJsonArray.getJSONObject(i)
+
+                    val news = NewsDataModel(
+                        newsJsonObject.getString("title"),
+                        newsJsonObject.getString("description"),
+                        newsJsonObject.getString("url"),
+                        newsJsonObject.getString("image")
+                    )
+
+                    newsArray.add(news)
+                }
+
+                newsAdapter.updateNewsList(newsArray)
+                binding.progressBarRecyclerView.visibility = View.GONE
+
+            },
+            {
+                Toast.makeText(this, "Oops! Something went wrong", Toast.LENGTH_SHORT).show()
+                binding.progressBarRecyclerView.visibility = View.GONE
+            }
+        )
+
+        VolleySingletonClass.getInstance(this).addToRequestQueue(jsonObjectRequest)
+
     }
 
-    override fun onNewsItemClicked(item: String) {
-        Toast.makeText(this, item, Toast.LENGTH_SHORT).show()
+    override fun onNewsItemClicked(item: NewsDataModel) {
+        val url: String = item.url
+
+        val builder = CustomTabsIntent.Builder()
+        val customTabsIntent = builder.build()
+
+        customTabsIntent.launchUrl(this, Uri.parse(url))
     }
 
 }
