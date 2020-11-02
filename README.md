@@ -51,6 +51,6 @@ Get your daily dose of NEWS here!
 
 ## Api documentation
 
-- [**NewsAPi**](https://gnews.io/docs/v4#introduction)
+- [**NewsAPI**](https://gnews.io/docs/v4#introduction)
 
 </div>
