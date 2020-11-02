@@ -7,7 +7,7 @@
 <div align="left">
 <br>
 
-Get your daily doze of NEWS here!
+Get your daily dose of NEWS here!
 
 <br>
 <hr>
@@ -18,7 +18,7 @@ Get your daily doze of NEWS here!
 * Free News articles
 * Breaking News in 4 lines
 * Multiple categories to choose from
-* Read full articles on one-click 
+* One-click to read full article
 
 <br>
 <hr>
