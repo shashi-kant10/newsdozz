@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">DailyShot</string>
-    <string name="headlines">Headlines</string>
-    <string name="business">Business</string>
-    <string name="technology">Technology</string>
+    <string name="app_name">NewsDozz</string>
+    <string name="headlines">breaking-news</string>
+    <string name="business">business</string>
+    <string name="technology">technology</string>
+    <string name="sports">sports</string>
+    <string name="science">science</string>
+    <string name="health">health</string>
 </resources>
